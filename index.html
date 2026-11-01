@@ -58,6 +58,7 @@
     .topbar { height: 74px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); gap: 16px; }
     .crumb { color: var(--muted); font-size: 12px; }
     .top-actions { display: flex; align-items: center; gap: 10px; }
+    .mobile-profile-photo { display: none; }
     .search { position: relative; }
     .search input { width: 230px; height: 36px; border: 1px solid var(--line); background: rgba(255,255,255,.75); border-radius: 5px; padding: 0 12px 0 34px; outline: none; }
     .search input:focus, input:focus, select:focus { border-color: #6a9883; box-shadow: 0 0 0 3px rgba(70, 127, 99, .12); }
@@ -159,6 +160,7 @@
       main { padding: 0 15px 27px; }
       .topbar { height: 59px; }
       .search input { width: min(42vw, 190px); }
+      .mobile-profile-photo { display: grid; width: 34px; height: 34px; flex-basis: 34px; }
       .page-head { margin: 21px 0 17px; align-items: center; }
       h1 { font-size: 25px; }
       .dashboard-grid { grid-template-columns: 1fr; }
@@ -210,6 +212,7 @@
         <div class="crumb" id="breadcrumb">केंद्र प्रबंधन&nbsp; / &nbsp;डैशबोर्ड</div>
         <div class="top-actions">
           <label class="search"><span class="search-icon">⌕</span><input id="globalSearch" type="search" placeholder="खोजें..." aria-label="खोजें"></label>
+          <button class="avatar avatar-button mobile-profile-photo" id="mobileProfilePhotoButton" type="button" title="विशाल शर्मा की प्रोफ़ाइल फोटो जोड़ें या बदलें" aria-label="विशाल शर्मा की प्रोफ़ाइल फोटो जोड़ें या बदलें">V</button>
           <button class="icon-button" id="notifyButton" title="सूचनाएँ" aria-label="सूचनाएँ">♧<span class="notification-dot"></span></button>
         </div>
       </header>
@@ -332,7 +335,9 @@
       button.innerHTML = photo ? `<img src="${esc(photo)}" alt="${esc(alt)}">` : fallback;
     }
     function renderProfilePhoto() {
-      renderStoredPhoto("profilePhotoButton", "vishal-profile-photo", "V", "विशाल शर्मा की प्रोफ़ाइल फोटो");
+      ["profilePhotoButton", "mobileProfilePhotoButton"].forEach(buttonId => {
+        if (document.getElementById(buttonId)) renderStoredPhoto(buttonId, "vishal-profile-photo", "V", "विशाल शर्मा की प्रोफ़ाइल फोटो");
+      });
     }
     function renderBrandPhoto() {
       renderStoredPhoto("brandPhotoButton", "vishal-brand-photo", "VS", "विशाल ऑनलाइन सर्विसेज का लोगो");
@@ -377,7 +382,7 @@
         if (!selectedPhoto) return;
         try {
             localStorage.setItem(config.key, JSON.stringify(selectedPhoto));
-            renderStoredPhoto(config.button, config.key, config.fallback, config.alt);
+            if (isBrand) renderBrandPhoto(); else renderProfilePhoto();
             closeModal(); showToast(`${config.label} सेव हुई`);
         } catch { showToast("फोटो सेव नहीं हो सकी"); }
       });
@@ -469,7 +474,7 @@
       const clicked = event.target;
       const target = clicked.closest("button");
       if (!target) { if (clicked.matches(".modal-backdrop")) closeModal(); return; }
-      if (target.id === "profilePhotoButton") { openPhotoModal(); return; }
+      if (target.id === "profilePhotoButton" || target.id === "mobileProfilePhotoButton") { openPhotoModal(); return; }
       if (target.id === "brandPhotoButton") { openPhotoModal(true); return; }
       if (target.dataset.page) { currentPage = target.dataset.page; render(); return; }
       if (target.dataset.action === "new-transaction") { openModal("transaction"); return; }
