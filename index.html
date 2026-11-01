@@ -381,7 +381,7 @@
       document.getElementById("breadcrumb").innerHTML = `केंद्र प्रबंधन&nbsp; / &nbsp;${pageNames[currentPage]}`;
       document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button.dataset.page === currentPage));
       const pageContent = ({ dashboard, transactions: transactionsPage, customers: customersPage, services: servicesPage, payments: paymentsPage })[currentPage]();
-      document.getElementById("content").innerHTML = `${isPublicReadOnly ? '<div class="readonly-notice">सार्वजनिक dashboard · सिर्फ देखने के लिए। रिकॉर्ड, फोटो, सेवा और भुगतान में बदलाव बंद हैं। अपने उपयोग के लिए अपने कंप्यूटर की dashboard file खोलें।</div>' : ""}${pageContent}`;
+      document.getElementById("content").innerHTML = `${isPublicReadOnly ? '<div class="readonly-notice">सार्वजनिक dashboard सिर्फ देखने के लिए है। लेन-देन जोड़ने के लिए अपने कंप्यूटर पर index.html खोलें → लेन-देन → ＋ नया लेन-देन। भरी एंट्री इसी browser में सेव होगी।</div>' : ""}${pageContent}`;
       const filter = document.getElementById("statusFilter");
       if (filter) filter.value = transactionFilter;
       const paymentAmount = document.getElementById("paymentQrAmount");
