@@ -12,7 +12,7 @@ GitHub Pages par root `index.html` dashboard publish hota hai. Public dashboard 
 
 Published page: https://vishal76235-ship-it.github.io/Vishal/
 
-Public website par customer, transaction, service, photo aur payment badlav band hain. Visitors ke browser mein pehle se maujood app data load nahi hota. Dashboard mein GitHub Pages address par hi read-only mode lagta hai; local file par owner editing available hai.
+Public website par customer, transaction, service, photo aur payment-record badlav band hain. Visitors ke browser mein pehle se maujood app data load nahi hota. Dashboard mein GitHub Pages address par hi read-only mode lagta hai; local file par owner editing available hai. Public payment page par diya UPI QR koi bhi scan karke payment bhej sakta hai; bank/UPI app mein payment verify karna zaroori hai.
 
 GitHub repository mein sirf bharosemand collaborators ko write access dein. Public read-only UI GitHub repository ko edit karne ki permission nahi deti; source code browser mein visible hai aur is static app mein real owner login/backend nahi hai.
 
@@ -25,6 +25,7 @@ GitHub repository mein sirf bharosemand collaborators ko write access dein. Publ
 - Transactions mein customer ka naam type/search karna, apni service aur amount manually enter karna, payment status filter karna aur CSV export karna
 - Transaction list se record edit ya delete karna
 - UPI ID se payment link banana aur payment milne par manually received mark karna
+- Payment page par public UPI QR dikhana; payment ki automatic confirmation nahi hoti
 - Data ko isi browser ke local storage mein rakhna
 - App customer aur transaction entries ko zero se shuru karta hai
 

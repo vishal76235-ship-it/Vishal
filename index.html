@@ -137,6 +137,9 @@
     .filter-select { height: 36px; border: 1px solid var(--line); background: #fff; border-radius: 5px; padding: 0 29px 0 10px; color: #46564c; font-size: 11px; }
     .full-panel { margin-top: 18px; }
     .payment-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: 14px; margin-top: 18px; align-items: start; }
+    .payment-qr-content { padding: 18px 20px 20px; text-align: center; }
+    .payment-qr-image { display: block; width: min(100%, 280px); height: auto; margin: 0 auto; border: 1px solid var(--line); border-radius: 5px; }
+    .payment-qr-note { max-width: 520px; margin: 14px auto 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
     .payment-result { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 16px; }
     .payment-link-input { width: 100%; min-width: 0; max-width: 100%; height: 38px; border: 1px solid var(--line); border-radius: 4px; padding: 0 10px; color: #52645a; background: #f9faf7; font-size: 11px; }
     .empty { padding: 35px 20px; text-align: center; color: var(--muted); }
@@ -297,9 +300,12 @@
       const list = transactions.filter(item => (transactionFilter === "all" || item.status === transactionFilter) && matching([item.id, item.customer, item.phone, item.service, item.mode].join(" ")));
       return `<div class="page"><div class="page-head"><div><div class="eyebrow">रिकॉर्ड प्रबंधन</div><h1>लेन-देन</h1><div class="date">${transactions.length.toLocaleString("hi-IN")} रिकॉर्ड</div></div><div class="toolbar"><button class="button button-secondary" data-page="payments">₹ UPI पेमेंट</button><button class="button button-primary" data-action="new-transaction"><span>＋</span> नया लेन-देन</button></div></div><section class="panel full-panel"><div class="panel-head"><div class="panel-title">सभी लेन-देन</div><div class="toolbar"><select class="filter-select" id="statusFilter" aria-label="स्थिति फ़िल्टर"><option value="all">सभी स्थितियाँ</option><option value="पूर्ण">पूर्ण</option><option value="लंबित">लंबित</option></select><button class="button button-secondary" data-action="export">↓ निर्यात</button></div></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${transactionRows(list, true)}</tbody></table></div></section></div>`;
     }
+    function paymentQrPanel() {
+      return `<section class="panel full-panel payment-qr-panel"><div class="panel-head"><div class="panel-title">पेमेंट पाने के लिए QR स्कैन करें</div></div><div class="payment-qr-content"><img class="payment-qr-image" src="payment-qr.jpg" alt="Vishal online services का UPI payment QR code" width="400" height="496"><p class="payment-qr-note">अपने UPI ऐप से QR स्कैन करें। भुगतान करने से पहले ऐप में दिखने वाला नाम और राशि जाँचें। पेमेंट की पुष्टि अपने बैंक/UPI ऐप में होने के बाद ही भुगतान प्राप्त मानें।</p></div></section>`;
+    }
     function paymentsPage() {
       if (isPublicReadOnly) {
-        return `<div class="page"><div class="page-head"><div><div class="eyebrow">सार्वजनिक प्रदर्शन</div><h1>पेमेंट</h1><div class="date">यह dashboard देखने के लिए है; public page पर payment request नहीं बनाई जा सकती।</div></div></div><section class="panel"><div class="panel-head"><div class="panel-title">पेमेंट सेवाएँ बंद हैं</div></div><div style="padding:17px 18px;color:var(--muted);line-height:1.7">पेमेंट अनुरोध बनाने और प्राप्ति दर्ज करने के लिए अपने कंप्यूटर पर रखी निजी dashboard file खोलें। Public page पर payment या ग्राहक रिकॉर्ड सेव नहीं होते।</div></section></div>`;
+        return `<div class="page"><div class="page-head"><div><div class="eyebrow">सार्वजनिक पेमेंट</div><h1>पेमेंट करें</h1><div class="date">UPI ऐप से नीचे दिया QR स्कैन करें।</div></div></div>${paymentQrPanel()}</div>`;
       }
       const upiId = readStore("sevasetu-upi-id", "");
       const serviceOptions = serviceCatalog.map(item => `<option value="${esc(item.name)}" data-fee="${item.fee}">${esc(item.name)}</option>`).join("") + '<option value="__custom_service__">अपनी सेवा लिखें</option>';
@@ -324,6 +330,7 @@
           </article>
           <aside class="panel"><div class="panel-head"><div class="panel-title">भुगतान स्थिति</div></div><div style="padding:17px 18px"><div class="metric-label">UPI अनुरोध</div><div class="metric-value">${onlineTransactions.length.toLocaleString("hi-IN")}</div><div class="metric-note">प्राप्ति की पुष्टि लेन-देन सूची में करें</div></div></aside>
         </section>
+        ${paymentQrPanel()}
         <section class="panel full-panel"><div class="panel-head"><div class="panel-title">हाल के UPI अनुरोध</div><span class="cell-sub">${onlineTransactions.length.toLocaleString("hi-IN")} रिकॉर्ड</span></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th></tr></thead><tbody>${transactionRows(onlineTransactions.slice(0, 5))}</tbody></table></div></section>
       </div>`;
     }
