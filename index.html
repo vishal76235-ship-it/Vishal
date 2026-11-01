@@ -59,6 +59,18 @@
     .crumb { color: var(--muted); font-size: 12px; }
     .top-actions { display: flex; align-items: center; gap: 10px; }
     .mobile-profile-photo { display: none; }
+    .readonly-notice { margin: 14px 0; padding: 11px 14px; border: 1px solid #dfe5df; border-radius: 5px; background: #fff; color: #53645a; font-size: 12px; line-height: 1.6; }
+    body.public-readonly #brandPhotoButton,
+    body.public-readonly #profilePhotoButton,
+    body.public-readonly #mobileProfilePhotoButton,
+    body.public-readonly [data-action="new-transaction"],
+    body.public-readonly [data-action="new-customer"],
+    body.public-readonly [data-action="new-service"],
+    body.public-readonly [data-action="edit-customer"],
+    body.public-readonly [data-action="mark-paid"],
+    body.public-readonly [data-action="copy-payment-link"],
+    body.public-readonly #paymentRequestForm { display: none !important; }
+    body.public-readonly .service-card { pointer-events: none; cursor: default; }
     .search { position: relative; }
     .search input { width: 230px; height: 36px; border: 1px solid var(--line); background: rgba(255,255,255,.75); border-radius: 5px; padding: 0 12px 0 34px; outline: none; }
     .search input:focus, input:focus, select:focus { border-color: #6a9883; box-shadow: 0 0 0 3px rgba(70, 127, 99, .12); }
@@ -222,6 +234,8 @@
   <div id="modalRoot"></div>
   <div id="toastRoot" aria-live="polite"></div>
   <script>
+    const isPublicReadOnly = location.hostname === "vishal76235-ship-it.github.io";
+    document.body.classList.toggle("public-readonly", isPublicReadOnly);
     const seedServices = [
       { name: "बिजली बिल", category: "बिल भुगतान", fee: 10, icon: "ϟ", tone: "#f7eed8" },
       { name: "आधार प्रिंट", category: "पहचान सेवा", fee: 30, icon: "▤", tone: "#e4edf5" },
@@ -235,6 +249,7 @@
     const seedCustomers = [];
     const seedTransactions = [];
     const readStore = (key, fallback) => {
+      if (isPublicReadOnly) return fallback;
       try { const saved = localStorage.getItem(key); return saved ? JSON.parse(saved) : fallback; }
       catch { return fallback; }
     };
@@ -248,6 +263,7 @@
     const esc = value => String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
     const initials = name => name.trim().split(/\s+/).slice(0, 2).map(part => part[0]).join("");
     const save = () => {
+      if (isPublicReadOnly) return;
       localStorage.setItem("sevasetu-services", JSON.stringify(serviceCatalog));
       localStorage.setItem("sevasetu-customers", JSON.stringify(customers));
       localStorage.setItem("sevasetu-transactions", JSON.stringify(transactions));
@@ -280,6 +296,9 @@
       return `<div class="page"><div class="page-head"><div><div class="eyebrow">रिकॉर्ड प्रबंधन</div><h1>लेन-देन</h1><div class="date">${transactions.length.toLocaleString("hi-IN")} रिकॉर्ड</div></div><div class="toolbar"><button class="button button-secondary" data-page="payments">₹ UPI पेमेंट</button><button class="button button-primary" data-action="new-transaction"><span>＋</span> नया लेन-देन</button></div></div><section class="panel full-panel"><div class="panel-head"><div class="panel-title">सभी लेन-देन</div><div class="toolbar"><select class="filter-select" id="statusFilter" aria-label="स्थिति फ़िल्टर"><option value="all">सभी स्थितियाँ</option><option value="पूर्ण">पूर्ण</option><option value="लंबित">लंबित</option></select><button class="button button-secondary" data-action="export">↓ निर्यात</button></div></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th></tr></thead><tbody>${transactionRows(list)}</tbody></table></div></section></div>`;
     }
     function paymentsPage() {
+      if (isPublicReadOnly) {
+        return `<div class="page"><div class="page-head"><div><div class="eyebrow">सार्वजनिक प्रदर्शन</div><h1>पेमेंट</h1><div class="date">यह dashboard देखने के लिए है; public page पर payment request नहीं बनाई जा सकती।</div></div></div><section class="panel"><div class="panel-head"><div class="panel-title">पेमेंट सेवाएँ बंद हैं</div></div><div style="padding:17px 18px;color:var(--muted);line-height:1.7">पेमेंट अनुरोध बनाने और प्राप्ति दर्ज करने के लिए अपने कंप्यूटर पर रखी निजी dashboard file खोलें। Public page पर payment या ग्राहक रिकॉर्ड सेव नहीं होते।</div></section></div>`;
+      }
       const upiId = readStore("sevasetu-upi-id", "");
       const serviceOptions = serviceCatalog.map(item => `<option value="${esc(item.name)}" data-fee="${item.fee}">${esc(item.name)}</option>`).join("") + '<option value="__custom_service__">अपनी सेवा लिखें</option>';
       const onlineTransactions = transactions.filter(item => item.mode === "UPI");
@@ -319,7 +338,8 @@
     function render() {
       document.getElementById("breadcrumb").innerHTML = `केंद्र प्रबंधन&nbsp; / &nbsp;${pageNames[currentPage]}`;
       document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button.dataset.page === currentPage));
-      document.getElementById("content").innerHTML = ({ dashboard, transactions: transactionsPage, customers: customersPage, services: servicesPage, payments: paymentsPage })[currentPage]();
+      const pageContent = ({ dashboard, transactions: transactionsPage, customers: customersPage, services: servicesPage, payments: paymentsPage })[currentPage]();
+      document.getElementById("content").innerHTML = `${isPublicReadOnly ? '<div class="readonly-notice">सार्वजनिक dashboard · सिर्फ देखने के लिए। रिकॉर्ड, फोटो, सेवा और भुगतान में बदलाव बंद हैं। अपने उपयोग के लिए अपने कंप्यूटर की dashboard file खोलें।</div>' : ""}${pageContent}`;
       const filter = document.getElementById("statusFilter");
       if (filter) filter.value = transactionFilter;
     }
@@ -343,6 +363,7 @@
       renderStoredPhoto("brandPhotoButton", "vishal-brand-photo", "VS", "विशाल ऑनलाइन सर्विसेज का लोगो");
     }
     function openPhotoModal(isBrand = false) {
+      if (isPublicReadOnly) return;
       const config = isBrand
         ? { key: "vishal-brand-photo", button: "brandPhotoButton", fallback: "VS", label: "लोगो फोटो", preview: "brand-photo-preview", alt: "विशाल ऑनलाइन सर्विसेज का लोगो", removeAction: "remove-brand-photo" }
         : { key: "vishal-profile-photo", button: "profilePhotoButton", fallback: "V", label: "प्रोफ़ाइल फोटो", preview: "profile-photo-preview", alt: "विशाल शर्मा की प्रोफ़ाइल फोटो", removeAction: "remove-profile-photo" };
@@ -405,6 +426,7 @@
       document.getElementById("editCustomerName").focus();
     }
     function openModal(type, selectedService = "") {
+      if (isPublicReadOnly) return;
       const isCustomer = type === "customer";
       const isService = type === "service";
       const title = isCustomer ? "नया ग्राहक" : isService ? "नई सेवा जोड़ें" : "नया लेन-देन";
@@ -449,6 +471,7 @@
       document.getElementById("modalRoot").querySelector("input")?.focus();
     }
     document.addEventListener("submit", event => {
+      if (isPublicReadOnly) { event.preventDefault(); showToast("Public dashboard सिर्फ देखने के लिए है"); return; }
       if (event.target.id !== "paymentRequestForm") return;
       event.preventDefault();
       const data = Object.fromEntries(new FormData(event.target).entries());
@@ -474,6 +497,9 @@
       const clicked = event.target;
       const target = clicked.closest("button");
       if (!target) { if (clicked.matches(".modal-backdrop")) closeModal(); return; }
+      if (isPublicReadOnly && (target.id === "profilePhotoButton" || target.id === "brandPhotoButton" || target.id === "mobileProfilePhotoButton" || target.matches(".service-card") || ["new-transaction", "new-customer", "new-service", "edit-customer", "mark-paid", "remove-profile-photo", "remove-brand-photo"].includes(target.dataset.action))) {
+        showToast("Public dashboard सिर्फ देखने के लिए है"); return;
+      }
       if (target.id === "profilePhotoButton" || target.id === "mobileProfilePhotoButton") { openPhotoModal(); return; }
       if (target.id === "brandPhotoButton") { openPhotoModal(true); return; }
       if (target.dataset.page) { currentPage = target.dataset.page; render(); return; }
