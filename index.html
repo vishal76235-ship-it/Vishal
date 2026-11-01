@@ -27,8 +27,17 @@
     }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Segoe UI", "Nirmala UI", sans-serif; font-size: 14px; }
+    body.welcome-open { overflow: hidden; }
     button, input, select { font: inherit; }
     button { cursor: pointer; }
+    .welcome-screen { position: fixed; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; overflow-y: auto; padding: 18px; background: var(--paper); text-align: center; }
+    .welcome-screen[hidden] { display: none; }
+    .welcome-poster { display: block; width: auto; max-width: min(100%, 480px); max-height: calc(100vh - 145px); object-fit: contain; border-radius: 6px; box-shadow: 0 8px 28px rgba(27, 46, 37, .16); }
+    .welcome-title { margin: 0; color: var(--forest); font: 700 28px Georgia, "Segoe UI", sans-serif; }
+    .welcome-message { margin: -7px 0 0; color: #52645a; font-size: 13px; }
+    .welcome-button { min-height: 42px; padding: 0 20px; border: 0; border-radius: 5px; background: var(--forest); color: #fff; font-weight: 650; }
+    .welcome-button:hover { background: var(--forest-soft); }
+    .welcome-button:focus-visible { outline: 3px solid #9dbb72; outline-offset: 3px; }
     .shell { min-height: 100vh; display: grid; grid-template-columns: 238px minmax(0, 1fr); }
     .sidebar { background: var(--forest); color: #eef5eb; padding: 26px 16px 18px; display: flex; flex-direction: column; min-height: 100vh; }
     .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px 29px; }
@@ -191,6 +200,10 @@
       .service-icon { flex-basis: 31px; height: 31px; }
     }
     @media (max-width: 420px) {
+      .welcome-screen { gap: 9px; padding: 12px; }
+      .welcome-poster { max-height: calc(100vh - 135px); }
+      .welcome-title { font-size: 24px; }
+      .welcome-message { font-size: 12px; }
       .top-actions { gap: 6px; }
       .search input { width: 135px; }
       .page-head { align-items: flex-start; }
@@ -204,7 +217,13 @@
     }
   </style>
 </head>
-<body>
+<body class="welcome-open">
+  <section class="welcome-screen" id="welcomeScreen" aria-labelledby="welcomeTitle">
+    <img class="welcome-poster" src="welcome-poster.png" alt="Vishal Online Services जन सेवा केंद्र का पोस्टर">
+    <h1 class="welcome-title" id="welcomeTitle">Welcome</h1>
+    <p class="welcome-message">विशाल ऑनलाइन सर्विसेज में आपका स्वागत है</p>
+    <button class="welcome-button" id="welcomeButton" type="button">वेबसाइट देखें</button>
+  </section>
   <div class="shell">
     <aside class="sidebar">
       <div class="brand">
@@ -584,6 +603,11 @@
     renderProfilePhoto();
     renderBrandPhoto();
     render();
+    document.getElementById("welcomeButton").addEventListener("click", () => {
+      document.getElementById("welcomeScreen").hidden = true;
+      document.body.classList.remove("welcome-open");
+      document.querySelector('.nav button[data-page="dashboard"]').focus();
+    });
   </script>
 </body>
 </html>

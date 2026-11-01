@@ -19,6 +19,7 @@ GitHub repository mein sirf bharosemand collaborators ko write access dein. Publ
 ## Features
 
 - Dashboard par collection, aaj ke transactions, customers aur pending payments ka overview
+- Site khulte hi center poster aur Welcome screen; “वेबसाइट देखें” se dashboard khulta hai
 - Customer records add, search aur edit karna
 - प्रोफ़ाइल फोटो और VS लोगो upload, preview और remove करना
 - Services dekhna aur naam, category, fee ke saath nayi service add karna
