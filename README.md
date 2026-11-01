@@ -27,9 +27,10 @@ GitHub repository mein sirf bharosemand collaborators ko write access dein. Publ
 - Transaction list se record edit ya delete karna
 - UPI ID se payment link banana aur payment milne par manually received mark karna
 - Payment page par public UPI QR dikhana; payment ki automatic confirmation nahi hoti
+- Payment page par amount daal kar usi amount ka UPI QR banana; QR generation ke liye internet par QRCode.js load hota hai
 - Data ko isi browser ke local storage mein rakhna
 - App customer aur transaction entries ko zero se shuru karta hai
 
 ## Zaroori jaankari
 
-Yeh standalone demo app hai. Data sirf isi browser profile/device par save hota hai; devices/users ke beech sync nahi hota. Service fees demo values hain; apne center ki lagu rates se badlein. UPI link payment app kholta hai, lekin app payment ko automatically verify nahi karta. Bank/UPI app mein payment dekhne ke baad hi received mark karein. Official CSC portal, Aadhaar, banking ya payment gateway integration nahi hai.
+Yeh standalone demo app hai. Data sirf isi browser profile/device par save hota hai; devices/users ke beech sync nahi hota. Service fees demo values hain; apne center ki lagu rates se badlein. UPI links aur amount waale QR payment app kholte hain, lekin app payment ko automatically verify nahi karta. Bank/UPI app mein payment dekhne ke baad hi received mark karein. Official CSC portal, Aadhaar, banking ya payment gateway integration nahi hai.
