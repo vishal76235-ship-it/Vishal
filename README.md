@@ -23,6 +23,7 @@ GitHub repository mein sirf bharosemand collaborators ko write access dein. Publ
 - प्रोफ़ाइल फोटो और VS लोगो upload, preview और remove करना
 - Services dekhna aur naam, category, fee ke saath nayi service add karna
 - Transactions mein customer ka naam type/search karna, apni service aur amount manually enter karna, payment status filter karna aur CSV export karna
+- Transaction list se record edit ya delete karna
 - UPI ID se payment link banana aur payment milne par manually received mark karna
 - Data ko isi browser ke local storage mein rakhna
 - App customer aur transaction entries ko zero se shuru karta hai
