@@ -34,6 +34,8 @@ Dashboard aur contact page par Instagram, YouTube aur WhatsApp ke direct links d
 - Transactions mein customer ka naam type/search karna, apni service aur amount manually enter karna, payment status filter karna aur CSV export karna
 - Transaction list se record edit ya delete karna
 - UPI ID se payment link banana aur payment milne par manually received mark karna
+- Offline Form se service record browser mein locally save karna; Online Form se UPI payment request banana
+- Offline Form aur Online Form mein photo upload karke title, details aur price edit/delete karna; photos current browser mein save hoti hain
 - Payment page par public UPI QR dikhana; payment ki automatic confirmation nahi hoti
 - Payment page par amount daal kar usi amount ka UPI QR banana; QR generation ke liye internet par QRCode.js load hota hai
 - Data ko isi browser ke local storage mein rakhna

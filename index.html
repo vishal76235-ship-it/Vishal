@@ -158,6 +158,15 @@
     .payment-qr-payee { margin: 10px 0 14px; color: var(--muted); font-size: 11px; }
     .payment-result { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 16px; }
     .payment-link-input { width: 100%; min-width: 0; max-width: 100%; height: 38px; border: 1px solid var(--line); border-radius: 4px; padding: 0 10px; color: #52645a; background: #f9faf7; font-size: 11px; }
+    .form-photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; margin-top: 14px; }
+    .form-photo-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+    .form-photo-card img { display: block; width: 100%; height: 230px; object-fit: contain; background: #f1f3ef; }
+    .form-photo-info { display: grid; gap: 7px; padding: 12px; }
+    .form-photo-title { font-weight: 700; overflow-wrap: anywhere; }
+    .form-photo-description { color: var(--muted); font-size: 12px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .form-photo-price { color: var(--forest); font-weight: 700; }
+    .form-photo-actions { display: flex; justify-content: flex-end; gap: 12px; padding-top: 3px; }
+    .form-photo-preview { display: block; width: min(100%, 220px); max-height: 260px; margin: 0 auto; object-fit: contain; border: 1px solid var(--line); border-radius: 4px; background: #f1f3ef; }
     .empty { padding: 35px 20px; text-align: center; color: var(--muted); }
     .modal-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; background: rgba(16, 34, 26, .48); animation: fade .15s ease; }
     @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
@@ -175,6 +184,7 @@
     .field[hidden] { display: none; }
     .field label { color: #53645a; font-size: 11px; font-weight: 650; }
     .field input, .field select { width: 100%; min-width: 0; max-width: 100%; height: 38px; border: 1px solid #dfe5df; border-radius: 4px; padding: 0 10px; outline: none; color: #26372e; background: #fff; }
+    .field textarea { width: 100%; min-height: 90px; resize: vertical; border: 1px solid #dfe5df; border-radius: 4px; padding: 9px 10px; outline: none; color: #26372e; background: #fff; font: inherit; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .form-actions { display: flex; justify-content: end; gap: 8px; margin-top: 5px; }
     .toast { position: fixed; z-index: 30; right: 22px; bottom: 20px; padding: 12px 16px; border-radius: 5px; background: var(--forest); color: white; box-shadow: 0 6px 24px #172a1c33; font-size: 12px; animation: enter .2s ease both; }
@@ -245,6 +255,8 @@
         <button data-page="customers"><span class="nav-icon">♙</span>ग्राहक</button>
         <button data-page="services"><span class="nav-icon">▦</span>सेवाएँ</button>
         <button data-page="payments"><span class="nav-icon">₹</span>पेमेंट</button>
+        <button data-page="offline-form"><span class="nav-icon">▤</span>Offline Form</button>
+        <button data-page="online-form"><span class="nav-icon">↗</span>Online Form</button>
       </nav>
       <div class="side-bottom">
         <div class="center-card"><div class="center-title">जन सेवा केंद्र</div><div class="center-meta">CSC ID · 425665760015<br>पता · नजदीकी पुरानी पंडित चौपाल,<br>सलवान (करनाल)</div><div class="contact-links" aria-label="ईमेल और फोन संपर्क"><a href="mailto:vishalonlineservice1@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm10 9L3.5 7h17L12 13zm-10-5v10h20V8l-10 7L2 8z"/></svg>vishalonlineservice1@gmail.com</a><a href="tel:+918307514105"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.2 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .6 3.6 1 1 0 0 1-.2 1l-2.3 2.2z"/></svg>8307514105</a></div><div class="social-links" aria-label="सोशल मीडिया और WhatsApp"><a href="https://www.instagram.com/vishalonlineservices1/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.25-3.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/></svg>Instagram</a><a href="https://youtube.com/@vishalonlineservices1" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a><a href="https://wa.me/918307514105" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.4-1.7a12 12 0 0 0 5.6 1.4h.1c6.5 0 11.8-5.3 11.8-11.9a11.8 11.8 0 0 0-3.4-8.3zM12 21.7a9.9 9.9 0 0 1-5.1-1.4l-.4-.2-3.8 1 1-3.7-.3-.4a9.8 9.8 0 0 1-1.5-5.2A10.1 10.1 0 1 1 12 21.7zm5.5-7.6c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6-.1-.1-.7-1.6-1-2.2-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.8s1.2 3.2 1.3 3.4c.2.2 2.4 3.7 5.9 5.2.8.3 1.4.5 1.9.6.8.3 1.6.2 2.2.1.7-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4z"/></svg>WhatsApp</a></div></div>
@@ -286,6 +298,12 @@
     let serviceCatalog = readStore("sevasetu-services", seedServices);
     let customers = readStore("sevasetu-customers", seedCustomers);
     let transactions = readStore("sevasetu-transactions", seedTransactions);
+    const readFormItems = key => {
+      const items = readStore(key, []);
+      return Array.isArray(items) ? items : [];
+    };
+    let offlineFormItems = readFormItems("sevasetu-offline-form-items");
+    let onlineFormItems = readFormItems("sevasetu-online-form-items");
     let currentPage = "dashboard";
     let searchQuery = "";
     let transactionFilter = "all";
@@ -324,6 +342,16 @@
       const list = transactions.filter(item => (transactionFilter === "all" || item.status === transactionFilter) && matching([item.id, item.customer, item.phone, item.service, item.mode].join(" ")));
       return `<div class="page"><div class="page-head"><div><div class="eyebrow">रिकॉर्ड प्रबंधन</div><h1>लेन-देन</h1><div class="date">${transactions.length.toLocaleString("hi-IN")} रिकॉर्ड</div></div><div class="toolbar"><button class="button button-secondary" data-page="payments">₹ UPI पेमेंट</button><button class="button button-primary" data-action="new-transaction"><span>＋</span> नया लेन-देन</button></div></div><div class="entry-help">नई एंट्री के लिए ऊपर <strong>＋ नया लेन-देन</strong> दबाएँ, ग्राहक और सेवा चुनें, राशि व भुगतान स्थिति भरकर <strong>लेन-देन सेव करें</strong> दबाएँ। रिकॉर्ड इसी browser में सेव होगा।</div><section class="panel full-panel"><div class="panel-head"><div class="panel-title">सभी लेन-देन</div><div class="toolbar"><select class="filter-select" id="statusFilter" aria-label="स्थिति फ़िल्टर"><option value="all">सभी स्थितियाँ</option><option value="पूर्ण">पूर्ण</option><option value="लंबित">लंबित</option></select><button class="button button-secondary" data-action="export">↓ निर्यात</button></div></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${transactionRows(list, true)}</tbody></table></div></section></div>`;
     }
+    function offlineFormPage() {
+      const list = transactions.filter(item => matching([item.id, item.customer, item.phone, item.service, item.mode].join(" ")));
+      return `<div class="page"><div class="page-head"><div><div class="eyebrow">ऑफलाइन सेवा रिकॉर्ड</div><h1>Offline Form</h1><div class="date">फॉर्म और फोटो इसी browser में सेव होंगे</div></div><button class="button button-primary" data-action="new-offline-form"><span>＋</span> ऑफलाइन फॉर्म भरें</button></div>${formPhotoGallery("offline")}<section class="panel full-panel"><div class="panel-head"><div class="panel-title">हाल के रिकॉर्ड</div><span class="cell-sub">${list.length.toLocaleString("hi-IN")} रिकॉर्ड</span></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th></tr></thead><tbody>${transactionRows(list)}</tbody></table></div></section></div>`;
+    }
+    function formPhotoGallery(kind) {
+      const items = kind === "offline" ? offlineFormItems : onlineFormItems;
+      const label = kind === "offline" ? "Offline Form" : "Online Form";
+      const cards = items.length ? items.map(item => `<article class="form-photo-card"><img src="${esc(item.image)}" alt="${esc(item.title)}"><div class="form-photo-info"><div class="form-photo-title">${esc(item.title)}</div>${item.description ? `<div class="form-photo-description">${esc(item.description)}</div>` : ""}${item.price !== "" ? `<div class="form-photo-price">${currency(Number(item.price))}</div>` : ""}<div class="form-photo-actions"><button class="text-button" data-action="edit-form-item" data-kind="${kind}" data-form-item-id="${esc(item.id)}">एडिट करें</button><button class="text-button" data-action="delete-form-item" data-kind="${kind}" data-form-item-id="${esc(item.id)}">हटाएँ</button></div></div></article>`).join("") : '<div class="empty">अभी कोई फोटो फॉर्म नहीं है। फोटो अपलोड करने के लिए ऊपर बटन दबाएँ।</div>';
+      return `<section class="full-panel"><div class="panel-head"><div class="panel-title">${label} · फोटो और विवरण</div><button class="button button-secondary" data-action="new-form-item" data-kind="${kind}">＋ फोटो अपलोड करें</button></div><div class="form-photo-grid">${cards}</div></section>`;
+    }
     function paymentQrPanel() {
       return `<section class="panel full-panel payment-qr-panel"><div class="panel-head"><div class="panel-title">पेमेंट पाने के लिए QR स्कैन करें</div></div><div class="payment-qr-content"><div class="payment-amount-field"><label for="paymentQrAmount">प्राप्त करने की राशि (₹)</label><div class="payment-amount-entry"><input id="paymentQrAmount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="राशि दर्ज करें" aria-describedby="paymentQrHelp"><button class="button button-primary" id="generatePaymentQr" type="button">राशि वाला QR बनाएँ</button></div><p class="payment-amount-help" id="paymentQrHelp">राशि भरकर QR बनाएँ। स्कैन करने पर UPI ऐप में यही रकम दिखेगी।</p></div><div class="payment-dynamic-result" id="dynamicPaymentQr" hidden aria-live="polite"><p class="payment-dynamic-title" id="paymentQrAmountLabel"></p><div class="payment-dynamic-qr" id="paymentQrOutput"></div><p class="payment-qr-payee">UPI ID · 8307514105@slic</p><a class="button button-primary" id="paymentQrOpenApp">UPI ऐप खोलें</a></div><div id="staticPaymentQr"><img class="payment-qr-image" src="payment-qr.jpg" alt="Vishal online services का UPI payment QR code" width="400" height="496"></div><p class="payment-qr-note">भुगतान करने से पहले UPI ऐप में नाम और राशि जाँचें। QR भुगतान की पुष्टि अपने बैंक/UPI ऐप में होने के बाद ही प्राप्त दर्ज करें।</p></div></section>`;
     }
@@ -352,6 +380,7 @@
           <aside class="panel"><div class="panel-head"><div class="panel-title">भुगतान स्थिति</div></div><div style="padding:17px 18px"><div class="metric-label">UPI अनुरोध</div><div class="metric-value">${onlineTransactions.length.toLocaleString("hi-IN")}</div><div class="metric-note">प्राप्ति की पुष्टि लेन-देन सूची में करें</div></div></aside>
         </section>
         ${paymentQrPanel()}
+        ${formPhotoGallery("online")}
         <section class="panel full-panel"><div class="panel-head"><div class="panel-title">हाल के UPI अनुरोध</div><span class="cell-sub">${onlineTransactions.length.toLocaleString("hi-IN")} रिकॉर्ड</span></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th></tr></thead><tbody>${transactionRows(onlineTransactions.slice(0, 5))}</tbody></table></div></section>
       </div>`;
     }
@@ -364,11 +393,11 @@
       const items = serviceCatalog.filter(item => matching([item.name, item.category].join(" ")));
       return `<div class="page"><div class="page-head"><div><div class="eyebrow">उपलब्ध सेवाएँ</div><h1>सेवा सूची</h1><div class="date">केंद्र पर उपलब्ध सेवाएँ और सेवा शुल्क</div></div><div class="toolbar"><button class="button button-secondary" data-action="new-transaction">सेवा शुरू करें</button><button class="button button-primary" data-action="new-service"><span>＋</span> सेवा जोड़ें</button></div></div><section class="service-grid">${items.length ? items.map(serviceCard).join("") : '<div class="empty">कोई सेवा नहीं मिली</div>'}</section><section class="panel full-panel"><div class="panel-head"><div class="panel-title">सेवा शुल्क नोट</div></div><div style="padding:16px 18px;color:#718077;font-size:12px;line-height:1.6">यहाँ दिए गए शुल्क केवल डेमो रिकॉर्ड हैं। वास्तविक सेवा शुल्क अपने केंद्र की लागू दरों के अनुसार दर्ज करें।</div></section></div>`;
     }
-    const pageNames = { dashboard: "डैशबोर्ड", transactions: "लेन-देन", customers: "ग्राहक", services: "सेवाएँ", payments: "पेमेंट" };
+    const pageNames = { dashboard: "डैशबोर्ड", transactions: "लेन-देन", customers: "ग्राहक", services: "सेवाएँ", payments: "पेमेंट", "offline-form": "Offline Form", "online-form": "Online Form" };
     function render() {
       document.getElementById("breadcrumb").innerHTML = `केंद्र प्रबंधन&nbsp; / &nbsp;${pageNames[currentPage]}`;
       document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button.dataset.page === currentPage));
-      const pageContent = ({ dashboard, transactions: transactionsPage, customers: customersPage, services: servicesPage, payments: paymentsPage })[currentPage]();
+      const pageContent = ({ dashboard, transactions: transactionsPage, customers: customersPage, services: servicesPage, payments: paymentsPage, "offline-form": offlineFormPage, "online-form": paymentsPage })[currentPage]();
       document.getElementById("content").innerHTML = pageContent;
       const filter = document.getElementById("statusFilter");
       if (filter) filter.value = transactionFilter;
@@ -477,7 +506,96 @@
       });
       document.getElementById("editTxCustomer").focus();
     }
-    function openModal(type, selectedService = "") {
+    function saveFormItems(kind, items) {
+      const key = kind === "offline" ? "sevasetu-offline-form-items" : "sevasetu-online-form-items";
+      try {
+        localStorage.setItem(key, JSON.stringify(items));
+        if (kind === "offline") offlineFormItems = items;
+        else onlineFormItems = items;
+        return true;
+      } catch (error) {
+        console.error("Could not save uploaded form photo", error);
+        showToast("फोटो सेव नहीं हुई; छोटी image चुनकर फिर कोशिश करें");
+        return false;
+      }
+    }
+    function compressFormPhoto(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("फोटो पढ़ी नहीं जा सकी"));
+        reader.onload = () => {
+          const image = new Image();
+          image.onerror = () => reject(new Error("यह फोटो खुल नहीं सकी"));
+          image.onload = () => {
+            const scale = Math.min(1, 1400 / Math.max(image.width, image.height));
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.max(1, Math.round(image.width * scale));
+            canvas.height = Math.max(1, Math.round(image.height * scale));
+            const context = canvas.getContext("2d");
+            if (!context) { reject(new Error("फोटो तैयार नहीं हो सकी")); return; }
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL("image/jpeg", 0.82));
+          };
+          image.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    function openFormPhotoModal(kind, itemId = "") {
+      const items = kind === "offline" ? offlineFormItems : onlineFormItems;
+      const existing = items.find(item => item.id === itemId);
+      if (itemId && !existing) { showToast("फॉर्म रिकॉर्ड नहीं मिला"); return; }
+      const label = kind === "offline" ? "Offline Form" : "Online Form";
+      const currentPhoto = existing?.image || "";
+      document.getElementById("modalRoot").innerHTML = `<div class="modal-backdrop" data-dismiss="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="formPhotoTitle"><div class="modal-head"><div class="modal-title" id="formPhotoTitle">${existing ? "फॉर्म एडिट करें" : `${label} फोटो अपलोड`}</div><button class="close-button" type="button" data-close aria-label="बंद करें">×</button></div><form class="form" id="formPhotoForm"><div class="field"><label for="formPhotoTitleInput">फॉर्म/सेवा का नाम</label><input id="formPhotoTitleInput" name="title" required maxlength="100" value="${esc(existing?.title || "")}" placeholder="जैसे: IGNOU Assignment"></div><div class="field"><label for="formPhotoDescription">विवरण</label><textarea id="formPhotoDescription" name="description" maxlength="500" placeholder="विवरण, कोर्स या अन्य जानकारी">${esc(existing?.description || "")}</textarea></div><div class="field"><label for="formPhotoPrice">कीमत (₹, वैकल्पिक)</label><input id="formPhotoPrice" name="price" type="number" min="0" step="0.01" value="${esc(existing?.price ?? "")}" placeholder="जैसे: 25"></div><div class="field"><label for="formPhotoFile">फॉर्म की फोटो${existing ? " बदलें (वैकल्पिक)" : ""}</label><input id="formPhotoFile" type="file" accept="image/*" ${existing ? "" : "required"}><span class="cell-sub">अधिकतम 12 MB; फोटो browser में सेव होगी।</span></div><img class="form-photo-preview" id="formPhotoPreview" src="${esc(currentPhoto)}" alt="फॉर्म फोटो का preview" ${currentPhoto ? "" : "hidden"}><div class="form-actions"><button class="button button-secondary" type="button" data-close>रद्द करें</button><button class="button button-primary" id="saveFormPhoto" type="submit" ${currentPhoto ? "" : "disabled"}>फॉर्म सेव करें</button></div></form></section></div>`;
+      let selectedPhoto = currentPhoto;
+      const fileInput = document.getElementById("formPhotoFile");
+      const preview = document.getElementById("formPhotoPreview");
+      const saveButton = document.getElementById("saveFormPhoto");
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        if (!file.type.startsWith("image/") || file.size > 12 * 1024 * 1024) {
+          showToast("12 MB से छोटी image चुनें");
+          fileInput.value = "";
+          return;
+        }
+        saveButton.disabled = true;
+        try {
+          selectedPhoto = await compressFormPhoto(file);
+          preview.src = selectedPhoto;
+          preview.hidden = false;
+          saveButton.disabled = false;
+        } catch (error) {
+          console.error("Could not process uploaded form photo", error);
+          showToast(error.message);
+          fileInput.value = "";
+          selectedPhoto = currentPhoto;
+          saveButton.disabled = !selectedPhoto;
+        }
+      });
+      document.getElementById("formPhotoForm").addEventListener("submit", event => {
+        event.preventDefault();
+        if (!selectedPhoto) { showToast("पहले फॉर्म की फोटो चुनें"); return; }
+        const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+        const updatedItem = {
+          id: existing?.id || `form-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          title: data.title.trim(),
+          description: data.description.trim(),
+          price: data.price,
+          image: selectedPhoto
+        };
+        const updatedItems = existing
+          ? items.map(item => item.id === existing.id ? updatedItem : item)
+          : [updatedItem, ...items];
+        if (!saveFormItems(kind, updatedItems)) return;
+        closeModal();
+        render();
+        showToast(existing ? "फॉर्म अपडेट हुआ" : "फॉर्म फोटो सेव हुई");
+      });
+      document.getElementById("formPhotoTitleInput").focus();
+    }
+    function openModal(type, selectedService = "", defaultMode = "UPI") {
       const isCustomer = type === "customer";
       const isService = type === "service";
       const title = isCustomer ? "नया ग्राहक" : isService ? "नई सेवा जोड़ें" : "नया लेन-देन";
@@ -487,7 +605,7 @@
         ? `<div class="field"><label for="customerName">पूरा नाम</label><input id="customerName" name="name" required maxlength="60" placeholder="ग्राहक का नाम"></div><div class="field"><label for="customerPhone">मोबाइल नंबर</label><input id="customerPhone" name="phone" required inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर"></div>`
         : isService
           ? `<div class="field"><label for="serviceName">सेवा का नाम</label><input id="serviceName" name="name" required maxlength="60" placeholder="जैसे: पानी का बिल"></div><div class="field"><label for="serviceCategory">श्रेणी</label><input id="serviceCategory" name="category" required maxlength="40" placeholder="जैसे: बिल भुगतान"></div><div class="field"><label for="serviceFee">सेवा शुल्क (₹)</label><input id="serviceFee" name="fee" type="number" min="0" step="1" required value="0"></div>`
-          : `<div class="field"><label for="txCustomer">ग्राहक का नाम</label><input id="txCustomer" name="customer" list="txCustomerOptions" required maxlength="60" placeholder="नाम लिखें या पुराना ग्राहक चुनें"><datalist id="txCustomerOptions">${customerOptions}</datalist></div><div class="field"><label for="txPhone">मोबाइल नंबर (वैकल्पिक)</label><input id="txPhone" name="phone" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर"></div><div class="field"><label for="txService">सेवा</label><select id="txService" name="service" required>${serviceOptions}</select></div><div class="field" id="customTxServiceField" hidden><label for="txCustomService">अपनी सेवा का नाम</label><input id="txCustomService" name="customService" maxlength="60" placeholder="सेवा का नाम"></div><div class="form-row"><div class="field"><label for="txAmount">राशि (₹)</label><input id="txAmount" name="amount" type="number" min="0" step="1" required value="${serviceCatalog.find(item => item.name === selectedService)?.fee ?? serviceCatalog[0]?.fee ?? 0}"></div><div class="field"><label for="txMode">भुगतान माध्यम</label><select id="txMode" name="mode"><option>UPI</option><option>नकद</option><option>बैंक</option></select></div></div><div class="field"><label for="txStatus">भुगतान स्थिति</label><select id="txStatus" name="status"><option>पूर्ण</option><option>लंबित</option></select></div>`;
+          : `<div class="field"><label for="txCustomer">ग्राहक का नाम</label><input id="txCustomer" name="customer" list="txCustomerOptions" required maxlength="60" placeholder="नाम लिखें या पुराना ग्राहक चुनें"><datalist id="txCustomerOptions">${customerOptions}</datalist></div><div class="field"><label for="txPhone">मोबाइल नंबर (वैकल्पिक)</label><input id="txPhone" name="phone" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर"></div><div class="field"><label for="txService">सेवा</label><select id="txService" name="service" required>${serviceOptions}</select></div><div class="field" id="customTxServiceField" hidden><label for="txCustomService">अपनी सेवा का नाम</label><input id="txCustomService" name="customService" maxlength="60" placeholder="सेवा का नाम"></div><div class="form-row"><div class="field"><label for="txAmount">राशि (₹)</label><input id="txAmount" name="amount" type="number" min="0" step="1" required value="${serviceCatalog.find(item => item.name === selectedService)?.fee ?? serviceCatalog[0]?.fee ?? 0}"></div><div class="field"><label for="txMode">भुगतान माध्यम</label><select id="txMode" name="mode"><option ${defaultMode === "UPI" ? "selected" : ""}>UPI</option><option ${defaultMode === "नकद" ? "selected" : ""}>नकद</option><option ${defaultMode === "बैंक" ? "selected" : ""}>बैंक</option></select></div></div><div class="field"><label for="txStatus">भुगतान स्थिति</label><select id="txStatus" name="status"><option>पूर्ण</option><option>लंबित</option></select></div>`;
       const submitLabel = isCustomer ? "ग्राहक जोड़ें" : isService ? "सेवा जोड़ें" : "लेन-देन सेव करें";
       document.getElementById("modalRoot").innerHTML = `<div class="modal-backdrop" data-dismiss="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div class="modal-title" id="modalTitle">${title}</div><button class="close-button" type="button" data-close aria-label="बंद करें">×</button></div><form class="form" id="entryForm">${fields}<div class="form-actions"><button class="button button-secondary" type="button" data-close>रद्द करें</button><button class="button button-primary" type="submit">${submitLabel}</button></div></form></section></div>`;
       document.getElementById("entryForm").addEventListener("submit", event => {
@@ -579,10 +697,23 @@
         transactions.splice(transactionIndex, 1);
         save(); render(); showToast("लेन-देन हटाया गया"); return;
       }
+      if (target.dataset.action === "new-form-item") { openFormPhotoModal(target.dataset.kind); return; }
+      if (target.dataset.action === "edit-form-item") { openFormPhotoModal(target.dataset.kind, target.dataset.formItemId); return; }
+      if (target.dataset.action === "delete-form-item") {
+        const kind = target.dataset.kind;
+        const items = kind === "offline" ? offlineFormItems : onlineFormItems;
+        const item = items.find(entry => entry.id === target.dataset.formItemId);
+        if (!item) { showToast("फॉर्म रिकॉर्ड नहीं मिला"); return; }
+        if (!window.confirm(`“${item.title}” हटाएँ? यह बदलाव वापस नहीं किया जा सकेगा।`)) return;
+        const updatedItems = items.filter(entry => entry.id !== item.id);
+        if (saveFormItems(kind, updatedItems)) { render(); showToast("फॉर्म रिकॉर्ड हटाया गया"); }
+        return;
+      }
       if (target.id === "profilePhotoButton" || target.id === "mobileProfilePhotoButton") { openPhotoModal(); return; }
       if (target.id === "brandPhotoButton") { openPhotoModal(true); return; }
       if (target.dataset.page) { currentPage = target.dataset.page; render(); return; }
       if (target.dataset.action === "new-transaction") { openModal("transaction"); return; }
+      if (target.dataset.action === "new-offline-form") { openModal("transaction", "", "नकद"); return; }
       if (target.dataset.action === "new-customer") { openModal("customer"); return; }
       if (target.dataset.action === "edit-customer") { openCustomerEdit(target.dataset.customerId); return; }
       if (target.dataset.action === "new-service") { openModal("service"); return; }
