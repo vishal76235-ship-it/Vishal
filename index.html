@@ -68,20 +68,7 @@
     .crumb { color: var(--muted); font-size: 12px; }
     .top-actions { display: flex; align-items: center; gap: 10px; }
     .mobile-profile-photo { display: none; }
-    .readonly-notice { margin: 14px 0; padding: 11px 14px; border: 1px solid #dfe5df; border-radius: 5px; background: #fff; color: #53645a; font-size: 12px; line-height: 1.6; }
-    body.public-readonly #brandPhotoButton,
-    body.public-readonly #profilePhotoButton,
-    body.public-readonly #mobileProfilePhotoButton,
-    body.public-readonly [data-action="new-transaction"],
-    body.public-readonly [data-action="new-customer"],
-    body.public-readonly [data-action="new-service"],
-    body.public-readonly [data-action="edit-customer"],
-    body.public-readonly [data-action="edit-transaction"],
-    body.public-readonly [data-action="delete-transaction"],
-    body.public-readonly [data-action="mark-paid"],
-    body.public-readonly [data-action="copy-payment-link"],
-    body.public-readonly #paymentRequestForm { display: none !important; }
-    body.public-readonly .service-card { pointer-events: none; cursor: default; }
+    .entry-help { margin-top: 14px; padding: 11px 14px; border: 1px solid #dce8df; border-radius: 5px; background: #f0f6f1; color: #40584a; font-size: 12px; line-height: 1.6; }
     .search { position: relative; }
     .search input { width: 230px; height: 36px; border: 1px solid var(--line); background: rgba(255,255,255,.75); border-radius: 5px; padding: 0 12px 0 34px; outline: none; }
     .search input:focus, input:focus, select:focus { border-color: #6a9883; box-shadow: 0 0 0 3px rgba(70, 127, 99, .12); }
@@ -272,8 +259,6 @@
   <div id="toastRoot" aria-live="polite"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
-    const isPublicReadOnly = location.hostname === "vishal76235-ship-it.github.io";
-    document.body.classList.toggle("public-readonly", isPublicReadOnly);
     const seedServices = [
       { name: "बिजली बिल", category: "बिल भुगतान", fee: 10, icon: "ϟ", tone: "#f7eed8" },
       { name: "आधार प्रिंट", category: "पहचान सेवा", fee: 30, icon: "▤", tone: "#e4edf5" },
@@ -287,7 +272,6 @@
     const seedCustomers = [];
     const seedTransactions = [];
     const readStore = (key, fallback) => {
-      if (isPublicReadOnly) return fallback;
       try { const saved = localStorage.getItem(key); return saved ? JSON.parse(saved) : fallback; }
       catch { return fallback; }
     };
@@ -301,7 +285,6 @@
     const esc = value => String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
     const initials = name => name.trim().split(/\s+/).slice(0, 2).map(part => part[0]).join("");
     const save = () => {
-      if (isPublicReadOnly) return;
       localStorage.setItem("sevasetu-services", JSON.stringify(serviceCatalog));
       localStorage.setItem("sevasetu-customers", JSON.stringify(customers));
       localStorage.setItem("sevasetu-transactions", JSON.stringify(transactions));
@@ -331,15 +314,12 @@
     function serviceCard(service) { return `<button class="service-card" data-service="${esc(service.name)}"><span class="service-icon" style="background:${service.tone};color:#365e4a">${esc(service.icon)}</span><span><span class="service-name">${esc(service.name)}</span><span class="service-price">शुल्क ${currency(service.fee)} से</span></span></button>`; }
     function transactionsPage() {
       const list = transactions.filter(item => (transactionFilter === "all" || item.status === transactionFilter) && matching([item.id, item.customer, item.phone, item.service, item.mode].join(" ")));
-      return `<div class="page"><div class="page-head"><div><div class="eyebrow">रिकॉर्ड प्रबंधन</div><h1>लेन-देन</h1><div class="date">${transactions.length.toLocaleString("hi-IN")} रिकॉर्ड</div></div><div class="toolbar"><button class="button button-secondary" data-page="payments">₹ UPI पेमेंट</button><button class="button button-primary" data-action="new-transaction"><span>＋</span> नया लेन-देन</button></div></div><section class="panel full-panel"><div class="panel-head"><div class="panel-title">सभी लेन-देन</div><div class="toolbar"><select class="filter-select" id="statusFilter" aria-label="स्थिति फ़िल्टर"><option value="all">सभी स्थितियाँ</option><option value="पूर्ण">पूर्ण</option><option value="लंबित">लंबित</option></select><button class="button button-secondary" data-action="export">↓ निर्यात</button></div></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${transactionRows(list, true)}</tbody></table></div></section></div>`;
+      return `<div class="page"><div class="page-head"><div><div class="eyebrow">रिकॉर्ड प्रबंधन</div><h1>लेन-देन</h1><div class="date">${transactions.length.toLocaleString("hi-IN")} रिकॉर्ड</div></div><div class="toolbar"><button class="button button-secondary" data-page="payments">₹ UPI पेमेंट</button><button class="button button-primary" data-action="new-transaction"><span>＋</span> नया लेन-देन</button></div></div><div class="entry-help">नई एंट्री के लिए ऊपर <strong>＋ नया लेन-देन</strong> दबाएँ, ग्राहक और सेवा चुनें, राशि व भुगतान स्थिति भरकर <strong>लेन-देन सेव करें</strong> दबाएँ। रिकॉर्ड इसी browser में सेव होगा।</div><section class="panel full-panel"><div class="panel-head"><div class="panel-title">सभी लेन-देन</div><div class="toolbar"><select class="filter-select" id="statusFilter" aria-label="स्थिति फ़िल्टर"><option value="all">सभी स्थितियाँ</option><option value="पूर्ण">पूर्ण</option><option value="लंबित">लंबित</option></select><button class="button button-secondary" data-action="export">↓ निर्यात</button></div></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${transactionRows(list, true)}</tbody></table></div></section></div>`;
     }
     function paymentQrPanel() {
       return `<section class="panel full-panel payment-qr-panel"><div class="panel-head"><div class="panel-title">पेमेंट पाने के लिए QR स्कैन करें</div></div><div class="payment-qr-content"><div class="payment-amount-field"><label for="paymentQrAmount">प्राप्त करने की राशि (₹)</label><div class="payment-amount-entry"><input id="paymentQrAmount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="राशि दर्ज करें" aria-describedby="paymentQrHelp"><button class="button button-primary" id="generatePaymentQr" type="button">राशि वाला QR बनाएँ</button></div><p class="payment-amount-help" id="paymentQrHelp">राशि भरकर QR बनाएँ। स्कैन करने पर UPI ऐप में यही रकम दिखेगी।</p></div><div class="payment-dynamic-result" id="dynamicPaymentQr" hidden aria-live="polite"><p class="payment-dynamic-title" id="paymentQrAmountLabel"></p><div class="payment-dynamic-qr" id="paymentQrOutput"></div><p class="payment-qr-payee">UPI ID · 8307514105@slic</p><a class="button button-primary" id="paymentQrOpenApp">UPI ऐप खोलें</a></div><div id="staticPaymentQr"><img class="payment-qr-image" src="payment-qr.jpg" alt="Vishal online services का UPI payment QR code" width="400" height="496"></div><p class="payment-qr-note">भुगतान करने से पहले UPI ऐप में नाम और राशि जाँचें। QR भुगतान की पुष्टि अपने बैंक/UPI ऐप में होने के बाद ही प्राप्त दर्ज करें।</p></div></section>`;
     }
     function paymentsPage() {
-      if (isPublicReadOnly) {
-        return `<div class="page"><div class="page-head"><div><div class="eyebrow">सार्वजनिक पेमेंट</div><h1>पेमेंट करें</h1><div class="date">UPI ऐप से नीचे दिया QR स्कैन करें।</div></div></div>${paymentQrPanel()}</div>`;
-      }
       const upiId = readStore("sevasetu-upi-id", "");
       const serviceOptions = serviceCatalog.map(item => `<option value="${esc(item.name)}" data-fee="${item.fee}">${esc(item.name)}</option>`).join("") + '<option value="__custom_service__">अपनी सेवा लिखें</option>';
       const onlineTransactions = transactions.filter(item => item.mode === "UPI");
@@ -381,7 +361,7 @@
       document.getElementById("breadcrumb").innerHTML = `केंद्र प्रबंधन&nbsp; / &nbsp;${pageNames[currentPage]}`;
       document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button.dataset.page === currentPage));
       const pageContent = ({ dashboard, transactions: transactionsPage, customers: customersPage, services: servicesPage, payments: paymentsPage })[currentPage]();
-      document.getElementById("content").innerHTML = `${isPublicReadOnly ? '<div class="readonly-notice">सार्वजनिक dashboard सिर्फ देखने के लिए है। लेन-देन जोड़ने के लिए अपने कंप्यूटर पर index.html खोलें → लेन-देन → ＋ नया लेन-देन। भरी एंट्री इसी browser में सेव होगी।</div>' : ""}${pageContent}`;
+      document.getElementById("content").innerHTML = pageContent;
       const filter = document.getElementById("statusFilter");
       if (filter) filter.value = transactionFilter;
       const paymentAmount = document.getElementById("paymentQrAmount");
@@ -411,7 +391,6 @@
       renderStoredPhoto("brandPhotoButton", "vishal-brand-photo", "VS", "विशाल ऑनलाइन सर्विसेज का लोगो");
     }
     function openPhotoModal(isBrand = false) {
-      if (isPublicReadOnly) return;
       const config = isBrand
         ? { key: "vishal-brand-photo", button: "brandPhotoButton", fallback: "VS", label: "लोगो फोटो", preview: "brand-photo-preview", alt: "विशाल ऑनलाइन सर्विसेज का लोगो", removeAction: "remove-brand-photo" }
         : { key: "vishal-profile-photo", button: "profilePhotoButton", fallback: "V", label: "प्रोफ़ाइल फोटो", preview: "profile-photo-preview", alt: "विशाल शर्मा की प्रोफ़ाइल फोटो", removeAction: "remove-profile-photo" };
@@ -491,7 +470,6 @@
       document.getElementById("editTxCustomer").focus();
     }
     function openModal(type, selectedService = "") {
-      if (isPublicReadOnly) return;
       const isCustomer = type === "customer";
       const isService = type === "service";
       const title = isCustomer ? "नया ग्राहक" : isService ? "नई सेवा जोड़ें" : "नया लेन-देन";
@@ -536,7 +514,6 @@
       document.getElementById("modalRoot").querySelector("input")?.focus();
     }
     document.addEventListener("submit", event => {
-      if (isPublicReadOnly) { event.preventDefault(); showToast("Public dashboard सिर्फ देखने के लिए है"); return; }
       if (event.target.id !== "paymentRequestForm") return;
       event.preventDefault();
       const data = Object.fromEntries(new FormData(event.target).entries());
@@ -585,9 +562,6 @@
         document.getElementById("staticPaymentQr").hidden = true;
         document.getElementById("dynamicPaymentQr").hidden = false;
         return;
-      }
-      if (isPublicReadOnly && (target.id === "profilePhotoButton" || target.id === "brandPhotoButton" || target.id === "mobileProfilePhotoButton" || target.matches(".service-card") || ["new-transaction", "new-customer", "new-service", "edit-customer", "edit-transaction", "delete-transaction", "mark-paid", "remove-profile-photo", "remove-brand-photo"].includes(target.dataset.action))) {
-        showToast("Public dashboard सिर्फ देखने के लिए है"); return;
       }
       if (target.dataset.action === "edit-transaction") { openTransactionEdit(target.dataset.transactionId); return; }
       if (target.dataset.action === "delete-transaction") {
