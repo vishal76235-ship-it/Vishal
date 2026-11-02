@@ -304,6 +304,7 @@
     };
     let offlineFormItems = readFormItems("sevasetu-offline-form-items");
     let onlineFormItems = readFormItems("sevasetu-online-form-items");
+    let offlineFormRecords = readFormItems("sevasetu-offline-form-records");
     let currentPage = "dashboard";
     let searchQuery = "";
     let transactionFilter = "all";
@@ -343,8 +344,12 @@
       return `<div class="page"><div class="page-head"><div><div class="eyebrow">रिकॉर्ड प्रबंधन</div><h1>लेन-देन</h1><div class="date">${transactions.length.toLocaleString("hi-IN")} रिकॉर्ड</div></div><div class="toolbar"><button class="button button-secondary" data-page="payments">₹ UPI पेमेंट</button><button class="button button-primary" data-action="new-transaction"><span>＋</span> नया लेन-देन</button></div></div><div class="entry-help">नई एंट्री के लिए ऊपर <strong>＋ नया लेन-देन</strong> दबाएँ, ग्राहक और सेवा चुनें, राशि व भुगतान स्थिति भरकर <strong>लेन-देन सेव करें</strong> दबाएँ। रिकॉर्ड इसी browser में सेव होगा।</div><section class="panel full-panel"><div class="panel-head"><div class="panel-title">सभी लेन-देन</div><div class="toolbar"><select class="filter-select" id="statusFilter" aria-label="स्थिति फ़िल्टर"><option value="all">सभी स्थितियाँ</option><option value="पूर्ण">पूर्ण</option><option value="लंबित">लंबित</option></select><button class="button button-secondary" data-action="export">↓ निर्यात</button></div></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th><th>कार्रवाई</th></tr></thead><tbody>${transactionRows(list, true)}</tbody></table></div></section></div>`;
     }
     function offlineFormPage() {
-      const list = transactions.filter(item => matching([item.id, item.customer, item.phone, item.service, item.mode].join(" ")));
-      return `<div class="page"><div class="page-head"><div><div class="eyebrow">ऑफलाइन सेवा रिकॉर्ड</div><h1>Offline Form</h1><div class="date">फॉर्म और फोटो इसी browser में सेव होंगे</div></div><button class="button button-primary" data-action="new-offline-form"><span>＋</span> ऑफलाइन फॉर्म भरें</button></div>${formPhotoGallery("offline")}<section class="panel full-panel"><div class="panel-head"><div class="panel-title">हाल के रिकॉर्ड</div><span class="cell-sub">${list.length.toLocaleString("hi-IN")} रिकॉर्ड</span></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th></tr></thead><tbody>${transactionRows(list)}</tbody></table></div></section></div>`;
+      const list = offlineFormRecords.filter(item => matching([item.id, item.customer, item.phone, item.service, item.details].join(" ")));
+      const rows = list.length ? list.map(item => `<tr><td><div class="cell-main">${esc(item.id)}</div><div class="cell-sub">${esc(item.date)}</div></td><td><div class="cell-main">${esc(item.customer)}</div><div class="cell-sub">${esc(item.phone || "मोबाइल नहीं दिया")}</div></td><td>${esc(item.service)}</td><td>${esc(item.details || "—")}</td></tr>`).join("") : '<tr><td colspan="4"><div class="empty">कोई रिकॉर्ड नहीं मिला</div></td></tr>';
+      return `<div class="page"><div class="page-head"><div><div class="eyebrow">ऑफलाइन सेवा रिकॉर्ड</div><h1>Offline Form</h1><div class="date">फॉर्म और फोटो इसी browser में सेव होंगे</div></div><button class="button button-primary" data-action="new-offline-form"><span>＋</span> ऑफलाइन फॉर्म भरें</button></div>${formPhotoGallery("offline")}<section class="panel full-panel"><div class="panel-head"><div class="panel-title">हाल के रिकॉर्ड</div><span class="cell-sub">${list.length.toLocaleString("hi-IN")} रिकॉर्ड</span></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>फॉर्म/सेवा</th><th>विवरण</th></tr></thead><tbody>${rows}</tbody></table></div></section></div>`;
+    }
+    function onlineFormPage() {
+      return `<div class="page"><div class="page-head"><div><div class="eyebrow">ऑनलाइन फॉर्म कैटलॉग</div><h1>Online Form</h1><div class="date">फॉर्म की फोटो और विवरण देखें, अपलोड करें या एडिट करें</div></div></div>${formPhotoGallery("online")}</div>`;
     }
     function formPhotoGallery(kind) {
       const items = kind === "offline" ? offlineFormItems : onlineFormItems;
@@ -380,7 +385,6 @@
           <aside class="panel"><div class="panel-head"><div class="panel-title">भुगतान स्थिति</div></div><div style="padding:17px 18px"><div class="metric-label">UPI अनुरोध</div><div class="metric-value">${onlineTransactions.length.toLocaleString("hi-IN")}</div><div class="metric-note">प्राप्ति की पुष्टि लेन-देन सूची में करें</div></div></aside>
         </section>
         ${paymentQrPanel()}
-        ${formPhotoGallery("online")}
         <section class="panel full-panel"><div class="panel-head"><div class="panel-title">हाल के UPI अनुरोध</div><span class="cell-sub">${onlineTransactions.length.toLocaleString("hi-IN")} रिकॉर्ड</span></div><div class="table-wrap"><table><thead><tr><th>रेफरेंस</th><th>ग्राहक</th><th>सेवा</th><th>राशि</th><th>माध्यम</th><th>स्थिति</th></tr></thead><tbody>${transactionRows(onlineTransactions.slice(0, 5))}</tbody></table></div></section>
       </div>`;
     }
@@ -397,7 +401,7 @@
     function render() {
       document.getElementById("breadcrumb").innerHTML = `केंद्र प्रबंधन&nbsp; / &nbsp;${pageNames[currentPage]}`;
       document.querySelectorAll(".nav button").forEach(button => button.classList.toggle("active", button.dataset.page === currentPage));
-      const pageContent = ({ dashboard, transactions: transactionsPage, customers: customersPage, services: servicesPage, payments: paymentsPage, "offline-form": offlineFormPage, "online-form": paymentsPage })[currentPage]();
+      const pageContent = ({ dashboard, transactions: transactionsPage, customers: customersPage, services: servicesPage, payments: paymentsPage, "offline-form": offlineFormPage, "online-form": onlineFormPage })[currentPage]();
       document.getElementById("content").innerHTML = pageContent;
       const filter = document.getElementById("statusFilter");
       if (filter) filter.value = transactionFilter;
@@ -595,6 +599,34 @@
       });
       document.getElementById("formPhotoTitleInput").focus();
     }
+    function openOfflineRecordModal() {
+      document.getElementById("modalRoot").innerHTML = `<div class="modal-backdrop" data-dismiss="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="offlineFormTitle"><div class="modal-head"><div class="modal-title" id="offlineFormTitle">ऑफलाइन फॉर्म भरें</div><button class="close-button" type="button" data-close aria-label="बंद करें">×</button></div><form class="form" id="offlineRecordForm"><div class="field"><label for="offlineCustomer">ग्राहक का नाम</label><input id="offlineCustomer" name="customer" required maxlength="100" placeholder="ग्राहक का नाम"></div><div class="field"><label for="offlinePhone">मोबाइल नंबर (वैकल्पिक)</label><input id="offlinePhone" name="phone" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर"></div><div class="field"><label for="offlineService">फॉर्म/सेवा का नाम</label><input id="offlineService" name="service" required maxlength="120" placeholder="फॉर्म या सेवा का नाम"></div><div class="field"><label for="offlineDetails">विवरण</label><textarea id="offlineDetails" name="details" maxlength="1000" placeholder="फॉर्म के लिए जरूरी जानकारी"></textarea></div><div class="form-actions"><button class="button button-secondary" type="button" data-close>रद्द करें</button><button class="button button-primary" type="submit">ऑफलाइन फॉर्म सेव करें</button></div></form></section></div>`;
+      document.getElementById("offlineRecordForm").addEventListener("submit", event => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+        const record = {
+          id: `OFF-${Date.now()}`,
+          customer: data.customer.trim(),
+          phone: data.phone.trim(),
+          service: data.service.trim(),
+          details: data.details.trim(),
+          date: new Intl.DateTimeFormat("hi-IN", { day: "numeric", month: "short", year: "numeric" }).format(new Date())
+        };
+        const updatedRecords = [record, ...offlineFormRecords];
+        try {
+          localStorage.setItem("sevasetu-offline-form-records", JSON.stringify(updatedRecords));
+          offlineFormRecords = updatedRecords;
+        } catch (error) {
+          console.error("Could not save offline form record", error);
+          showToast("ऑफलाइन फॉर्म सेव नहीं हुआ");
+          return;
+        }
+        closeModal();
+        render();
+        showToast("ऑफलाइन फॉर्म सेव हुआ");
+      });
+      document.getElementById("offlineCustomer").focus();
+    }
     function openModal(type, selectedService = "", defaultMode = "UPI") {
       const isCustomer = type === "customer";
       const isService = type === "service";
@@ -713,7 +745,7 @@
       if (target.id === "brandPhotoButton") { openPhotoModal(true); return; }
       if (target.dataset.page) { currentPage = target.dataset.page; render(); return; }
       if (target.dataset.action === "new-transaction") { openModal("transaction"); return; }
-      if (target.dataset.action === "new-offline-form") { openModal("transaction", "", "नकद"); return; }
+      if (target.dataset.action === "new-offline-form") { openOfflineRecordModal(); return; }
       if (target.dataset.action === "new-customer") { openModal("customer"); return; }
       if (target.dataset.action === "edit-customer") { openCustomerEdit(target.dataset.customerId); return; }
       if (target.dataset.action === "new-service") { openModal("service"); return; }
