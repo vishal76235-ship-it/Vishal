@@ -6,15 +6,21 @@ CSC center operations ke liye Hindi-first dashboard.
 
 `index.html` ko browser mein kholiye. Node.js ya package installation ki zaroorat nahi hai.
 
+लेन-देन दर्ज करने के लिए local `index.html` खोलें → “लेन-देन” → “＋ नया लेन-देन”। ग्राहक, सेवा, राशि और भुगतान स्थिति भरकर “लेन-देन सेव करें” दबाएँ। Dashboard पर भी “＋ नया लेन-देन” बटन उपलब्ध है।
+
+## Android app (APK)
+
+Android Studio project `android-app` folder mein hai. Build requirements aur APK banane ke steps ke liye [android-app/README.md](./android-app/README.md) dekhein. App ka data phone par hi rahega; public website se sync nahi hoga.
+
 ## Public website publish karein
 
-GitHub Pages par root `index.html` dashboard publish hota hai. Public dashboard read-only hai; apne computer par `index.html` kholne par owner ke liye editing features chalte hain.
+GitHub Pages par root `index.html` dashboard publish hota hai. Public dashboard par sabhi visitors customer, transaction, service aur photo records add/edit kar sakte hain.
 
 Published page: https://vishal76235-ship-it.github.io/Vishal/
 
-Public website par customer, transaction, service, photo aur payment-record badlav band hain. Visitors ke browser mein pehle se maujood app data load nahi hota. Dashboard mein GitHub Pages address par hi read-only mode lagta hai; local file par owner editing available hai. Public payment page par diya UPI QR koi bhi scan karke payment bhej sakta hai; bank/UPI app mein payment verify karna zaroori hai.
+Har visitor ka data sirf uske apne browser profile/device ke local storage mein save hota hai; visitors ka data ek-doosre ko ya website owner ko dikhai nahi deta aur devices ke beech sync nahi hota. Shared customer records, accounts ya server-side access control ke liye backend banana hoga. Public payment page par diya UPI QR koi bhi scan karke payment bhej sakta hai; bank/UPI app mein payment verify karna zaroori hai.
 
-GitHub repository mein sirf bharosemand collaborators ko write access dein. Public read-only UI GitHub repository ko edit karne ki permission nahi deti; source code browser mein visible hai aur is static app mein real owner login/backend nahi hai.
+GitHub repository mein sirf bharosemand collaborators ko write access dein. Public dashboard editing GitHub repository ko edit karne ki permission nahi deti; source code browser mein visible hai aur is static app mein real owner login/backend nahi hai.
 
 ## Features
 
