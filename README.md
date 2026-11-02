@@ -22,7 +22,7 @@ Har visitor ka data sirf uske apne browser profile/device ke local storage mein 
 
 GitHub repository mein sirf bharosemand collaborators ko write access dein. Public dashboard editing GitHub repository ko edit karne ki permission nahi deti; source code browser mein visible hai aur is static app mein real owner login/backend nahi hai.
 
-Dashboard aur contact page par Instagram, YouTube aur WhatsApp ke direct links diye gaye hain. WhatsApp link center ke listed number 8307514105 par khulta hai.
+Dashboard aur contact page par Instagram, YouTube aur WhatsApp ke direct links diye gaye hain. WhatsApp link center ke listed number 8307514105 par khulta hai; email aur phone icons se email ya call khol sakte hain.
 
 ## Features
 
